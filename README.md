@@ -1,84 +1,90 @@
 # MASCO Election Portal
 
-A web-based election management, symbol allocation, vote entry, and live result publication system for internal organizational elections.
+A web-based election management and live result publication system designed for managing internal organizational elections efficiently through a centralized platform.
 
-The system uses a **GitHub Pages frontend** with a **Node.js backend deployed on Render**. Election data is managed centrally through the backend API and displayed on the public result dashboard.
-
----
-
-## Live Links
-
-| Service | Link |
-|---|---|
-| **Result Dashboard** | https://sojib11111.github.io/Masco-Election-portal/index.html?branch=branch-concept |
-| **Admin Panel** | https://sojib11111.github.io/Masco-Election-portal/admin.html |
-| **Render Backend** | https://masco-election-portal.onrender.com |
-| **API Health Test** | https://masco-election-portal.onrender.com/api/health |
-| **Render Result Dashboard** | https://masco-election-portal.onrender.com/index.html?branch=branch-concept |
-| **Render Admin Panel** | https://masco-election-portal.onrender.com/admin.html |
-
-> The GitHub Pages frontend communicates with the Render backend through REST API calls.
+The system provides an **Admin Panel** for election management and a **Live Election Dashboard** for publishing and displaying election results.
 
 ---
 
-## Project Overview
+## 🔗 Live Access
 
-MASCO Election Portal is designed to manage the complete election workflow from a central web interface.
+| Service | Access |
+| --- | --- |
+| 🖥️ **Election Dashboard** | [Open Dashboard](https://sojib11111.github.io/Masco-Election-portal/) |
+| 🔐 **Admin Panel** | [Open Admin Panel](https://sojib11111.github.io/Masco-Election-portal/admin.html) |
+| ⚙️ **API Health Check** | [Check API Status](https://masco-election-portal.onrender.com/api/health) |
 
-Main features include:
-
-- Election setup
-- Branch management
-- Section management
-- Candidate management
-- Candidate photo support
-- Symbol master management
-- Manual symbol allocation
-- Spin-wheel symbol allocation
-- Duplicate symbol prevention
-- One-candidate-one-symbol rule
-- Vote entry
-- General seat result
-- Reserved women seat result
-- Winner calculation
-- Result publication
-- Live result dashboard
-- Voter turnout summary
-- Section-wise result view
-- Excel-compatible export
-- Admin authentication
-- Central JSON data storage
-- Automatic JSON backup
-- Responsive desktop and mobile interface
+> **System Architecture:** The frontend is hosted on **GitHub Pages** and communicates with the **Node.js backend hosted on Render** through REST APIs.
 
 ---
 
-## System Architecture
+## 📌 Project Overview
+
+**MASCO Election Portal** is a centralized web application developed to simplify and digitize the election management process.
+
+The system supports the complete election workflow, including election configuration, section management, candidate management, symbol allocation, vote entry, result calculation, and live result publication.
+
+The application is designed with a responsive interface so that election information and results can be accessed from different screen sizes and devices.
+
+---
+
+## ✨ Key Features
+
+- Secure Admin Login
+- Election Configuration
+- Branch Management
+- Section Management
+- Candidate Management
+- Candidate Photo Management
+- Symbol Management
+- Manual Symbol Allocation
+- Spin Wheel Symbol Allocation
+- Duplicate Symbol Prevention
+- Vote Entry
+- General Seat Management
+- Reserved Women Seat Management
+- Automatic Result Calculation
+- Tie Result Handling
+- Result Preview
+- Result Publication
+- Live Election Dashboard
+- Section-wise Result View
+- Voter Turnout Information
+- Responsive User Interface
+- Automatic Dashboard Refresh
+- Data Export
+- Centralized Election Data Management
+- JSON Data Backup
+- REST API Integration
+
+---
+
+## 🏗️ System Architecture
 
 ```text
-                USER / ADMIN
-                     |
-                     v
+              Admin / User
+                   │
+                   ▼
           GitHub Pages Frontend
-     sojib11111.github.io/...
-                     |
-                     | HTTPS REST API
-                     v
-             Render Node.js API
-   masco-election-portal.onrender.com
-                     |
-                     v
-             data/election.json
-                     |
-          +----------+----------+
-          |                     |
-          v                     v
-     Admin Panel          Result Dashboard
+                   │
+                   │ HTTPS / REST API
+                   ▼
+           Node.js Backend API
+             Hosted on Render
+                   │
+                   ▼
+             Election Data
+            data/election.json
+                   │
+          ┌────────┴────────┐
+          │                 │
+          ▼                 ▼
+     Admin Panel      Election Dashboard
 ```
 
 ---
 
-## Technology Stack
+## 🛠️ Technology Stack
 
 ### Frontend
 
@@ -89,107 +95,240 @@ Main features include:
 - CSS Grid
 - Flexbox
 - Responsive Media Queries
-- Canvas/JavaScript Spin Wheel
-- Session Storage
+- Canvas / JavaScript
+- Browser Session Storage
 
 ### Backend
 
 - Node.js
-- HTTP REST API
-- File-based JSON storage
-- Authentication token handling
-- CORS support
-- Automatic data backup
+- REST API
+- JSON Data Storage
+- Authentication
+- CORS Configuration
+- Automatic Data Backup
 
-### Deployment
+### Deployment & Version Control
 
+- Git
 - GitHub
 - GitHub Pages
-- Render Web Service
-- Git version control
+- Render
 
 ---
 
-## Main Pages
+## 🖥️ Election Dashboard
 
-### Result Dashboard
+The Election Dashboard provides a clear and responsive view of published election results.
 
-```text
-index.html
-```
+### Dashboard Information
 
-Live:
+- Election Title
+- Election Date
+- Section-wise Results
+- Candidate Name
+- Candidate Photo
+- Election Symbol
+- Received Votes
+- General Seat Winners
+- Reserved Women Seat Winners
+- Total Candidates
+- Total Winners
+- Voter Turnout
+- Published Result Status
 
-https://sojib11111.github.io/Masco-Election-portal/index.html?branch=branch-concept
-
-The dashboard displays:
-
-- Election title
-- Election date
-- Section-wise results
-- Candidate photos
-- Candidate symbols
-- Received votes
-- General seat winners
-- Reserved women seat winners
-- Total sections
-- Total candidates
-- Total winners
-- Total received candidate votes
-- Voter turnout
-- Result publication status
-
-The dashboard automatically reloads updated server data at a configured interval.
+The dashboard automatically retrieves the latest election information from the backend API.
 
 ---
 
-### Admin Panel
+## 🔐 Admin Panel
 
-```text
-admin.html
-```
+The Admin Panel provides centralized control over election configuration and management.
 
-Live:
+### Admin Functions
 
-https://sojib11111.github.io/Masco-Election-portal/admin.html
+- Election Setup
+- Branch Setup
+- Section Setup
+- Candidate Management
+- Candidate Photo Management
+- Symbol Management
+- Symbol Allocation
+- Spin Wheel
+- Vote Entry
+- Result Preview
+- Result Publication
+- Data Export
+- Election Data Management
 
-Admin functions include:
+Administrative operations are protected through backend authentication.
 
-- Dashboard
-- Branch setup
-- Election configuration
-- Section management
-- Candidate management
-- Symbol management
-- Symbol allocation
-- Spin wheel
-- Vote entry
-- Result preview
-- Result publication
-- Export
-- Data management
-
-> Admin credentials should never be written in this public README or committed as plain text in frontend JavaScript.
+> Admin credentials are intentionally not included in this public repository documentation.
 
 ---
 
-### Section / Unit Result
+## 🎯 Symbol Allocation
+
+The system supports both **Manual Symbol Allocation** and **Spin Wheel Symbol Allocation**.
+
+### Allocation Flow
 
 ```text
-unit-result.html
+Select Section
+      │
+      ▼
+Select Candidate
+      │
+      ▼
+Load Available Symbols
+      │
+      ▼
+Spin / Manual Selection
+      │
+      ▼
+Allocate Symbol
+      │
+      ▼
+Save Election Data
 ```
 
-This page displays detailed election results for an individual section/unit.
+### Allocation Rules
+
+```text
+One Candidate = One Active Symbol
+```
+
+Once a symbol has been allocated, the system prevents the same allocated symbol from appearing as available according to the configured allocation scope.
+
+An allocated symbol can also be changed or released through the administrative management interface when required.
 
 ---
 
-## Backend API
+## 🗳️ Vote Management
 
-Backend base URL:
+The system provides centralized vote entry and result management.
+
+Supported seat categories include:
+
+- সাধারণ আসন
+- সংরক্ষিত নারী আসন
+
+The Admin Panel can update candidate vote information, which is then stored through the backend API.
+
+---
+
+## 🏆 Result Management
+
+Election results are calculated and displayed based on the configured election rules and recorded votes.
+
+The result system supports:
+
+- Candidate Vote Ranking
+- General Seat Winners
+- Reserved Women Seat Winners
+- Tie Handling
+- Result Preview
+- Final Result Publication
+- Section-wise Result Display
+
+Published results are displayed through the Election Dashboard.
+
+---
+
+## 📊 Voter Turnout
+
+The dashboard can display voter participation information separately from candidate vote totals.
+
+This is important because a voter may be allowed to vote for multiple candidates depending on the number of available seats.
+
+Therefore, voter turnout is based on actual voter participation rather than simply adding all candidate votes.
+
+---
+
+## 🔄 Data Flow
+
+### Admin Data Update
 
 ```text
-https://masco-election-portal.onrender.com
+Admin Panel
+     │
+     ▼
+Frontend JavaScript
+     │
+     ▼
+REST API Request
+     │
+     ▼
+Node.js Backend
+     │
+     ▼
+Election Data Storage
 ```
+
+### Dashboard Data Flow
+
+```text
+Election Dashboard
+       │
+       ▼
+REST API Request
+       │
+       ▼
+Node.js Backend
+       │
+       ▼
+Election Data
+       │
+       ▼
+Updated Dashboard
+```
+
+---
+
+## 🌐 Frontend & Backend Integration
+
+The project uses a separated frontend and backend architecture.
+
+### Frontend
+
+Hosted using:
+
+```text
+GitHub Pages
+```
+
+The frontend contains:
+
+- HTML
+- CSS
+- JavaScript
+- Dashboard UI
+- Admin UI
+- Client-side election logic
+
+### Backend
+
+Hosted using:
+
+```text
+Render
+```
+
+The backend handles:
+
+- Election Data API
+- Admin Authentication
+- Data Read Operations
+- Data Write Operations
+- JSON Data Management
+- Data Backup
+- CORS
+- API Health Monitoring
+
+---
+
+## 🔌 REST API
+
+The application communicates with the backend using REST APIs.
 
 ### Health Check
 
@@ -197,17 +336,7 @@ https://masco-election-portal.onrender.com
 GET /api/health
 ```
 
-Live test:
-
-https://masco-election-portal.onrender.com/api/health
-
-A healthy backend should return a successful JSON response similar to:
-
-```json
-{
-  "ok": true
-}
-```
+Used to verify that the backend service is online and responding correctly.
 
 ### Election Data
 
@@ -215,149 +344,206 @@ A healthy backend should return a successful JSON response similar to:
 GET /api/data
 ```
 
-Loads the latest election data from the Node.js backend.
+Retrieves the latest election data.
 
 ```http
 POST /api/data
 ```
 
-Saves updated election data. The POST operation is protected by admin authentication.
+Saves updated election information.
+
+Write operations require valid administrative authentication.
 
 ### Authentication
 
 ```http
 POST /api/auth/login
-GET  /api/auth/check
+```
+
+Authenticates an administrator.
+
+```http
+GET /api/auth/check
+```
+
+Validates the current administrative session/token.
+
+```http
 POST /api/auth/logout
 ```
 
+Ends the current administrative session.
+
 ---
 
-## API Configuration
+## ⚙️ API Configuration
 
-Frontend API configuration is stored in:
+Frontend API configuration is maintained in:
 
 ```text
 assets/js/api-config.js
 ```
 
-Current production configuration:
+This configuration allows the frontend hosted on GitHub Pages to communicate with the backend hosted on Render.
 
-```javascript
-window.MASCO_API_BASE =
-  'https://masco-election-portal.onrender.com';
-```
-
-The helper is used to generate backend URLs:
-
-```javascript
-window.MascoApiUrl('/api/data');
-```
-
-Result:
+Application flow:
 
 ```text
-https://masco-election-portal.onrender.com/api/data
-```
-
-This allows the GitHub Pages frontend to use the Render backend instead of trying to access `/api/data` from GitHub Pages.
-
----
-
-## Data Flow
-
-### Admin Update Flow
-
-```text
-Admin Panel
-    |
-    v
-Frontend JavaScript
-    |
-    v
-POST /api/data
-    |
-    v
-Render Node.js Server
-    |
-    v
-data/election.json
-```
-
-### Result Dashboard Flow
-
-```text
-Result Dashboard
-    |
-    v
-GET /api/data
-    |
-    v
-Render Node.js Server
-    |
-    v
-data/election.json
-    |
-    v
-Updated Dashboard
+GitHub Pages
+      │
+      ▼
+api-config.js
+      │
+      ▼
+Render Backend
+      │
+      ▼
+REST API
 ```
 
 ---
 
-## Project Structure
+## 📁 Project Structure
 
 ```text
 Masco-Election-portal/
-|
-|-- index.html
-|-- admin.html
-|-- unit-result.html
-|
-|-- server.js
-|-- package.json
-|-- render.yaml
-|
-|-- assets/
-|   |
-|   |-- css/
-|   |   `-- ...
-|   |
-|   `-- js/
-|       |-- api-config.js
-|       |-- store.js
-|       |-- admin.js
-|       |-- result.js
-|       `-- unit-result.js
-|
-`-- data/
-    |-- election.json
-    `-- backups/
+│
+├── index.html
+├── admin.html
+├── unit-result.html
+│
+├── server.js
+├── package.json
+├── render.yaml
+│
+├── assets/
+│   │
+│   ├── css/
+│   │   └── ...
+│   │
+│   └── js/
+│       ├── api-config.js
+│       ├── store.js
+│       ├── admin.js
+│       ├── result.js
+│       └── unit-result.js
+│
+└── data/
+    ├── election.json
+    └── backups/
 ```
 
 ---
 
-## Local Development
+## 💾 Data Storage
+
+Election information is currently maintained using JSON-based storage.
+
+Main data file:
+
+```text
+data/election.json
+```
+
+The data structure can contain information such as:
+
+- Election Configuration
+- Branches
+- Sections
+- Candidates
+- Candidate Photos
+- Symbols
+- Symbol Allocations
+- Votes
+- Booth Information
+- Result Configuration
+- Published Results
+
+---
+
+## 🛡️ Data Backup
+
+The backend includes a backup mechanism for election data.
+
+Backup files can be maintained under:
+
+```text
+data/backups/
+```
+
+This provides an additional recovery option if election information is accidentally modified.
+
+---
+
+## 🔒 Security
+
+The project follows several basic security practices:
+
+- Administrative operations require authentication.
+- Admin passwords are not documented in the public README.
+- Sensitive authentication logic is handled by the backend.
+- Election data write operations are protected.
+- CORS controls frontend-to-backend communication.
+- Production communication uses HTTPS.
+- Administrative tokens are validated by the backend.
+
+---
+
+## 📱 Responsive Design
+
+The portal is designed to support different screen sizes.
+
+Responsive technologies include:
+
+- CSS Grid
+- Flexbox
+- Media Queries
+- Responsive Cards
+- Responsive Tables
+- Adaptive Navigation
+- Dynamic Content Layout
+
+The interface can therefore be used from desktops, laptops, tablets, and supported mobile displays.
+
+---
+
+## 🚀 Deployment Architecture
+
+```text
+                GitHub Repository
+                       │
+              ┌────────┴────────┐
+              │                 │
+              ▼                 ▼
+        GitHub Pages          Render
+          Frontend            Backend
+              │                 │
+              └────────┬────────┘
+                       │
+                       ▼
+                 Election System
+```
+
+GitHub is also used for source-code version control and deployment management.
+
+---
+
+## 🔧 Local Development
 
 ### Requirements
 
-Install Node.js 18 or later.
+- Node.js
+- npm
+- Git
+- Modern Web Browser
 
-Check:
-
-```bash
-node --version
-npm --version
-```
-
-### Install
-
-Clone the repository:
+### Clone Repository
 
 ```bash
 git clone https://github.com/Sojib11111/Masco-Election-portal.git
 ```
 
-Enter the project folder:
+Enter the project directory:
 
 ```bash
 cd Masco-Election-portal
@@ -369,7 +555,7 @@ Install dependencies:
 npm install
 ```
 
-Start the server:
+Start the Node.js server:
 
 ```bash
 npm start
@@ -381,209 +567,115 @@ or:
 node server.js
 ```
 
-The local server normally becomes available at:
+For the standard local configuration, the application can then be accessed through:
 
 ```text
 http://localhost:8080
 ```
 
-Admin:
-
-```text
-http://localhost:8080/admin.html
-```
-
-Result:
-
-```text
-http://localhost:8080/index.html?branch=branch-concept
-```
-
 ---
 
-## GitHub Deployment
+## 📤 Updating the Project
 
-Push changes to the existing repository:
+After making changes:
 
 ```bash
 git add .
-git commit -m "Update election portal"
+```
+
+Commit:
+
+```bash
+git commit -m "Update MASCO Election Portal"
+```
+
+Push:
+
+```bash
 git push
 ```
 
-GitHub Pages hosts the static frontend.
-
-Repository:
-
-```text
-https://github.com/Sojib11111/Masco-Election-portal
-```
+The deployment services can then publish the latest version from the GitHub repository.
 
 ---
 
-## Render Deployment
+## ⚠️ Production Storage Note
 
-The same GitHub repository is connected to Render as a Node.js Web Service.
-
-Recommended settings:
-
-```text
-Branch        : main
-Build Command : npm install
-Start Command : node server.js
-```
-
-Render automatically provides the `PORT` environment variable.
-
-Production backend:
-
-```text
-https://masco-election-portal.onrender.com
-```
-
----
-
-## Symbol Allocation Logic
-
-The portal supports both manual allocation and spin-wheel allocation.
-
-Current business rules include:
-
-```text
-One Candidate = One Active Symbol
-```
-
-and:
-
-```text
-An already allocated symbol must not appear as available
-for another candidate according to the configured allocation scope.
-```
-
-Management users can release or change an allocation when required.
-
----
-
-## Vote and Result Management
-
-The election result module supports:
-
-- General seat candidates
-- Reserved women seat candidates
-- Vote entry
-- Ranking
-- Winner display
-- Tie handling
-- Result preview
-- Public result publication
-- Section-wise details
-
-Voter turnout is calculated from voter participation, not from the sum of candidate votes.
-
----
-
-## Backup
-
-Before election data is overwritten, the Node server can create backup copies under:
-
-```text
-data/backups/
-```
-
-This helps restore previous election data if an accidental change occurs.
-
----
-
-## Security Notes
-
-- Do not store admin passwords in this README.
-- Do not commit plain-text passwords to frontend JavaScript.
-- Admin write operations should remain protected by backend authentication.
-- Keep the Render backend URL configured through `api-config.js`.
-- Do not expose unnecessary internal files through the web server.
-- Use HTTPS for public deployments.
-
----
-
-## Important Production Note
-
-The current system stores election data in:
+The current version uses:
 
 ```text
 data/election.json
 ```
 
-Render free instances use an ephemeral filesystem. A redeploy, restart, or replacement instance may reset runtime file changes.
+as its primary election data storage.
 
-For testing and demonstration, the current setup is suitable.
+For testing, development, and demonstration this architecture is simple and effective.
 
-For critical production use, migrate election data to persistent storage such as:
+For a critical production election environment, persistent database storage is recommended.
 
-- Oracle Database
-- PostgreSQL
-- Render persistent disk
-- Another managed database
-
-Recommended future architecture:
+Possible future architecture:
 
 ```text
 GitHub Pages
-      |
-      v
-REST API / ORDS
-      |
-      v
+      │
+      ▼
+Node.js / ORDS REST API
+      │
+      ▼
 Oracle Database
 ```
 
----
+Possible persistent storage options include:
 
-## Quick Test Checklist
-
-After every deployment, verify:
-
-```text
-1. Open the API Health Test.
-2. Confirm that the response contains "ok": true.
-3. Open the Admin Panel.
-4. Login successfully.
-5. Update a test value.
-6. Save the update.
-7. Open the Result Dashboard.
-8. Confirm the updated value appears.
-9. Test on another browser/device.
-10. Confirm no /api/data 404 error appears.
-```
+- Oracle Database
+- PostgreSQL
+- Managed Cloud Database
+- Persistent Server Storage
 
 ---
 
-## Live System Summary
+## 🔮 Future Development
 
-**Frontend**  
-https://sojib11111.github.io/Masco-Election-portal/
+Potential future improvements include:
 
-**Admin**  
-https://sojib11111.github.io/Masco-Election-portal/admin.html
-
-**Result Dashboard**  
-https://sojib11111.github.io/Masco-Election-portal/index.html?branch=branch-concept
-
-**Backend**  
-https://masco-election-portal.onrender.com
-
-**API Health**  
-https://masco-election-portal.onrender.com/api/health
-
----
-
-## Author / Project
-
-**MASCO Election Portal**
-
-Internal election management and result publication system.
+- Oracle Database Integration
+- ORDS REST API Integration
+- Advanced Role-Based Access Control
+- Audit Log
+- Admin Activity History
+- Election Data Versioning
+- Database Backup & Recovery
+- Advanced Election Analytics
+- Additional Export Reports
+- Improved Monitoring
+- Centralized Production Deployment
 
 ---
 
-## License
+## 📋 System Summary
 
-Internal / organizational use unless otherwise specified.
+| Component | Technology |
+| --- | --- |
+| **Frontend** | HTML, CSS, JavaScript |
+| **Backend** | Node.js |
+| **Communication** | REST API / Fetch API |
+| **Current Data Storage** | JSON |
+| **Frontend Hosting** | GitHub Pages |
+| **Backend Hosting** | Render |
+| **Version Control** | Git & GitHub |
+| **Authentication** | Backend Admin Authentication |
+| **Responsive UI** | CSS Grid, Flexbox & Media Queries |
+
+---
+
+## 👨‍💻 Project
+
+### MASCO Election Portal
+
+**Web-Based Election Management & Live Result Publication System**
+
+Designed to provide a centralized, responsive, and efficient platform for managing election activities from candidate and symbol management through vote entry and final result publication.
+
+---
+
+> **Note:** This project is intended for authorized organizational election management and administrative use.
