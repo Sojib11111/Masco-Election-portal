@@ -9,7 +9,8 @@ const { exec } = require('child_process');
 
 const ROOT = __dirname;
 const DATA_DIR = path.join(ROOT, 'data');
-const DATA_FILE = path.join(DATA_DIR, 'election.json');
+const BUNDLED_DATA_FILE = path.join(DATA_DIR, 'election.json');
+const DATA_FILE = process.env.DATA_FILE ? path.resolve(process.env.DATA_FILE) : BUNDLED_DATA_FILE;
 const BACKUP_DIR = path.join(DATA_DIR, 'backups');
 const PID_FILE = path.join(ROOT, '.server.pid');
 const BASE_PORT = Number(process.env.PORT || 8080);
@@ -22,6 +23,7 @@ const ADMIN_PASSWORD_HASH = String(process.env.ADMIN_PASSWORD_HASH || DEFAULT_PA
 const SESSION_TTL_MS = 8 * 60 * 60 * 1000;
 const MAX_BODY_BYTES = 30 * 1024 * 1024;
 const sessions = new Map();
+const ALLOWED_ORIGINS = String(process.env.ALLOWED_ORIGINS || 'https://sojib11111.github.io').split(',').map(x=>x.trim()).filter(Boolean);
 
 const MIME = {
   '.html': 'text/html; charset=utf-8',
@@ -36,6 +38,33 @@ const MIME = {
   '.ico': 'image/x-icon'
 };
 
+
+function ensureDataFile() {
+  const dir = path.dirname(DATA_FILE);
+  fs.mkdirSync(dir, { recursive: true });
+  if (!fs.existsSync(DATA_FILE)) {
+    if (DATA_FILE !== BUNDLED_DATA_FILE && fs.existsSync(BUNDLED_DATA_FILE)) {
+      fs.copyFileSync(BUNDLED_DATA_FILE, DATA_FILE);
+    } else if (!fs.existsSync(DATA_FILE)) {
+      fs.writeFileSync(DATA_FILE, JSON.stringify({meta:{},branches:[],units:[],candidates:[],symbols:[],symbolAllocations:[]}, null, 2), 'utf8');
+    }
+  }
+}
+
+function corsHeaders(req) {
+  const origin = String(req.headers.origin || '');
+  if (!origin) return {};
+  const allowed = ALLOWED_ORIGINS.includes('*') || ALLOWED_ORIGINS.includes(origin);
+  if (!allowed) return {};
+  return {
+    'Access-Control-Allow-Origin': origin,
+    'Vary': 'Origin',
+    'Access-Control-Allow-Methods': 'GET,POST,OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Admin-Token',
+    'Access-Control-Max-Age': '86400'
+  };
+}
+
 function sha256(text) {
   return crypto.createHash('sha256').update(String(text), 'utf8').digest('hex');
 }
@@ -48,6 +77,7 @@ function json(res, code, obj, extraHeaders = {}) {
     'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
     'Pragma': 'no-cache',
     'Expires': '0',
+    ...(res._cors || {}),
     ...extraHeaders
   });
   res.end(body);
@@ -61,6 +91,7 @@ function send(res, code, body, type = 'text/plain; charset=utf-8', extraHeaders 
     'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
     'Pragma': 'no-cache',
     'Expires': '0',
+    ...(res._cors || {}),
     ...extraHeaders
   });
   res.end(buf);
@@ -173,6 +204,12 @@ function localIpv4Addresses() {
 function createAppServer() {
   return http.createServer(async (req, res) => {
     try {
+      const cors = corsHeaders(req);
+      res._cors = cors;
+      if (req.method === 'OPTIONS') {
+        res.writeHead(204, cors);
+        return res.end();
+      }
       const cleanUrl = req.url.split('?')[0];
 
       if (cleanUrl === '/api/health' && req.method === 'GET') {
@@ -295,4 +332,5 @@ process.on('SIGTERM', () => shutdown('SIGTERM'));
 process.on('exit', removePidFile);
 process.on('uncaughtException', err => { console.error('Unexpected server error:', err); removePidFile(); process.exit(1); });
 
+ensureDataFile();
 tryListen(BASE_PORT);

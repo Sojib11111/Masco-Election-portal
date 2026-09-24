@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: masco-election-portal
+    runtime: node
+    plan: starter
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      - key: DATA_FILE
+        value: /var/data/election.json
+      - key: ALLOWED_ORIGINS
+        value: https://sojib11111.github.io
+    disk:
+      name: masco-election-data
+      mountPath: /var/data
+      sizeGB: 1
