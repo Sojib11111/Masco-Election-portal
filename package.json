@@ -1,0 +1,14 @@
+{
+  "name": "masco-election-portal",
+  "version": "1.0.0",
+  "private": true,
+  "description": "MASCO Election Portal - Node.js + writable JSON backend",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "check": "node --check server.js && node --check assets/js/store.js && node --check assets/js/admin.js && node --check assets/js/result.js && node --check assets/js/unit-result.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MASCO Group - নির্বাচন ব্যবস্থাপনা</title>
+<link rel="stylesheet" href="assets/css/styles.css?v=41.0">
+<link rel="stylesheet" href="assets/css/admin-v9.css?v=52.3">
+</head>
+<body class="bangla-ui admin-bn-body">
+<div id="loginView" class="login">
+  <div class="login-card bn-login-card">
+    <img src="assets/img/masco-logo.png" alt="MASCO" class="admin-login-logo">
+    <h1>নির্বাচন ব্যবস্থাপনা</h1>
+    <p class="subtle">মাসকো গ্রুপ • বহু-শাখা নির্বাচন ব্যবস্থাপনা</p>
+    <div class="field"><label>ব্যবহারকারীর নাম</label><input id="loginUser" value="admin"></div>
+    <div class="field" style="margin-top:10px"><label>পাসওয়ার্ড</label><input id="loginPass" type="password" placeholder="পাসওয়ার্ড লিখুন" autocomplete="current-password"></div>
+    <button id="loginBtn" class="btn primary full-btn">লগইন</button>
+  </div>
+</div>
+
+<div id="appView" class="shell hidden admin-bn-shell">
+  <aside class="sidebar bn-sidebar">
+    <div class="brand brand-bn"><img src="assets/img/masco-logo.png" alt="MASCO"><div>নির্বাচন ব্যবস্থাপনা<small>MASCO GROUP</small></div></div>
+    <div class="bn-nav-menu" aria-label="প্রধান নেভিগেশন">
+      <button class="navbtn active" data-page="dashboard">⌂ ড্যাশবোর্ড</button>
+      <button class="navbtn" data-page="branches">🏭 শাখা ব্যবস্থাপনা</button>
+      <button class="navbtn" data-page="election">🗓 নির্বাচন সেটআপ</button>
+      <button class="navbtn" data-page="units">▦ সেকশন ব্যবস্থাপনা</button>
+      <button class="navbtn" data-page="candidates">👥 প্রার্থী ব্যবস্থাপনা</button>
+      <button class="navbtn" data-page="symbols">🎯 প্রতীক বরাদ্দ</button>
+      <button class="navbtn" data-page="votes">🗳 ভোট এন্ট্রি</button>
+      <button class="navbtn" data-page="publish">✓ যাচাই ও প্রকাশ</button>
+      <a class="navbtn" href="index.html" target="_blank">↗ জনসাধারণের ফলাফল</a>
+    </div>
+    <div class="server-save-box" id="serverSaveBox"><span class="save-dot"></span><div><b>তথ্য সংরক্ষণ</b><small id="saveStatusText">সার্ভারের সাথে যুক্ত</small></div></div>
+  </aside>
+
+  <main class="main bn-main">
+    <div class="topbar bn-topbar">
+      <div><h1 id="pageTitle">ড্যাশবোর্ড</h1><div class="subtle" id="electionSub"></div></div>
+      <div class="actions admin-top-actions">
+        <select id="adminBranchSelect" class="branch-select-admin"></select>
+        <button id="exportBtn" class="btn">তথ্য ডাউনলোড</button>
+        <label class="btn">তথ্য আপলোড<input id="importFile" type="file" accept="application/json" hidden></label>
+        <button id="logoutBtn" class="btn danger">লগআউট</button>
+      </div>
+    </div>
+
+    <section id="dashboard" class="section active">
+      <div class="admin-hero-card">
+        <div><span class="eyebrow">মাসকো গ্রুপ নির্বাচন ব্যবস্থাপনা</span><h2 id="dashBranchName">শাখা নির্বাচন ড্যাশবোর্ড</h2><p id="dashElectionTitle">অংশগ্রহণকারী কমিটি নির্বাচন</p></div>
+        <div class="hero-status-wrap"><span id="dashElectionDate" class="hero-date">তারিখ নির্ধারিত নয়</span><span id="dashPublishStatus" class="hero-publish draft">খসড়া</span></div>
+      </div>
+      <div class="grid kpis premium-admin-kpis">
+        <div class="card kpi blue"><span class="kpi-icon">🏭</span><b id="kpiBranches">০</b><span>সক্রিয় শাখা</span></div>
+        <div class="card kpi cyan"><span class="kpi-icon">▦</span><b id="kpiUnits">০</b><span>নির্বাচিত শাখার সেকশন</span></div>
+        <div class="card kpi purple"><span class="kpi-icon">👥</span><b id="kpiCandidates">০</b><span>সক্রিয় প্রার্থী</span></div>
+        <div class="card kpi green"><span class="kpi-icon">🧑‍🤝‍🧑</span><b id="kpiVoters">০</b><span>মোট ভোটার</span></div>
+        <div class="card kpi gold"><span class="kpi-icon">🗳</span><b id="kpiVotes">০</b><span>প্রার্থীদের মোট ভোট</span></div>
+      </div>
+      <div class="card dashboard-main-card"><div class="section-head"><div><h2>সেকশনভিত্তিক সারসংক্ষেপ</h2></div></div><div id="dashboardUnits"></div></div>
+    </section>
+
+    <section id="branches" class="section"><div class="card"><div class="section-head"><div><h2>শাখা ব্যবস্থাপনা</h2></div><button id="addBranchBtn" class="btn primary">+ নতুন শাখা</button></div><div class="notice">প্রতিটি শাখার সেকশন, প্রার্থী, ভোট ও ফলাফল সম্পূর্ণ আলাদা থাকবে। শাখা যোগ, নাম পরিবর্তন, ক্রম পরিবর্তন ও নিষ্ক্রিয় করা যাবে।</div><div id="branchTable" style="margin-top:14px"></div></div></section>
+
+    <section id="election" class="section"><div class="card"><div class="section-head"><h2>নির্বাচন সেটআপ</h2></div><div class="form-grid">
+      <div class="field full"><label>প্রতিষ্ঠান</label><input id="organization"></div>
+      <div class="field full"><label>নির্বাচিত শাখা</label><input id="electionBranchName" disabled></div>
+      <div class="field full"><label>নির্বাচনের শিরোনাম</label><input id="electionTitle"></div>
+      <div class="field"><label>নির্বাচনের তারিখ</label><input id="electionDate" type="date"></div>
+      <input type="hidden" id="published" value="false">
+      <div class="field full"><button id="saveElectionBtn" class="btn primary">নির্বাচন সেটিং সংরক্ষণ করুন</button></div>
+    </div></div></section>
+
+    <section id="units" class="section"><div class="card"><div class="section-head"><div><h2>সেকশন ব্যবস্থাপনা</h2></div><button id="addUnitBtn" class="btn primary">+ নতুন সেকশন</button></div><div class="notice">প্রতিটি সেকশনে পুরুষ ও নারী ভোটার সংখ্যা, মোট ভোটার, একাধিক বুথ নম্বর, সাধারণ আসন ও সংরক্ষিত নারী আসনে বিজয়ীর সংখ্যা, মোট প্রদত্ত ভোট এবং বাতিল ভোট সংরক্ষণ করা যাবে।</div><div id="unitTable" style="margin-top:14px"></div></div></section>
+
+    <section id="candidates" class="section"><div class="card"><div class="section-head"><div><h2>প্রার্থী ব্যবস্থাপনা</h2></div><div class="actions"><select id="candidateUnitFilter"></select><button id="addCandidateBtn" class="btn primary">+ নতুন প্রার্থী</button></div></div><div class="notice">প্রতীক এখানে আর লিখতে হবে না। সব প্রতীক আগে <b>প্রতীক বরাদ্দ</b> পেজের প্রতীক তালিকায় যোগ করুন, তারপর section-wise spin/manual allocation করুন।</div><div id="candidateTable" style="margin-top:14px"></div></div></section>
+
+    <section id="symbols" class="section">
+      <div class="grid kpis symbol-kpis">
+        <div class="card kpi blue"><span class="kpi-icon">👥</span><b id="symKpiCandidates">০</b><span>মোট প্রার্থী</span></div>
+        <div class="card kpi cyan"><span class="kpi-icon">🎯</span><b id="symKpiSymbols">০</b><span>সক্রিয় প্রতীক</span></div>
+        <button class="card kpi green symbol-kpi-click" id="symAllocatedCard" type="button"><span class="kpi-icon">✓</span><b id="symKpiAllocated">০</b><span>বরাদ্দ সম্পন্ন</span><small>তালিকা দেখতে ক্লিক করুন</small></button>
+        <button class="card kpi gold symbol-kpi-click" id="symPendingCard" type="button"><span class="kpi-icon">⌛</span><b id="symKpiPending">০</b><span>বরাদ্দ বাকি</span><small>তালিকা দেখতে ক্লিক করুন</small></button>
+      </div>
+
+      <div class="card symbol-allocation-card symbol-workflow-card">
+        <div class="symbol-workflow-head">
+          <div><span class="symbol-workflow-eyebrow"></span><h2>প্রতীক বরাদ্দ / স্পিন</h2></div>
+        </div>
+        <div class="symbol-step-grid">
+          <div class="symbol-step"><span class="step-no">1</span><div class="field"><label>সেকশন নির্বাচন করুন</label><select id="symbolUnitFilter"></select><small>সেকশন বাছলে সংশ্লিষ্ট প্রার্থী দেখাবে</small></div></div>
+          <div class="symbol-step"><span class="step-no">2</span><div class="field"><label>প্রার্থী নির্বাচন করুন</label><select id="allocationCandidate"></select><label class="allocation-management-toggle"><input id="showAllocatedCandidates" type="checkbox"> বরাদ্দকৃত প্রার্থী দেখান <b>(Management)</b></label></div></div>
+          <div class="symbol-step"><span class="step-no violet">3</span><div class="field"><label>পদ্ধতি / প্রতীক</label><select id="allocationSymbol"></select><small>Manual বরাদ্দের জন্য প্রতীক নির্বাচন করুন</small></div></div>
+          <div class="symbol-step action-step"><span class="step-no green">4</span><div><label class="action-label">কাজ সম্পন্ন করুন</label><div class="symbol-action-group"><button id="manualAllocateBtn" class="btn primary" type="button">▶ প্রতীক বরাদ্দ</button><button id="lotteryAllocateBtn" class="btn success spin-open-btn" type="button">🎡 স্পিন খুলুন</button><button id="releaseSymbolBtn" class="btn warn" type="button">🗑 বরাদ্দ বাতিল</button></div></div></div>
+        </div>
+        <div id="allocationPreview" class="allocation-preview"></div>
+      </div>
+
+      <div class="card symbol-master-card" style="margin-top:14px">
+        <div class="section-head symbol-master-head"><div><h2>প্রতীকের তালিকা <span id="symbolMasterCount"></span></h2></div><div class="actions"><input id="symbolMasterSearch" class="symbol-search-input" type="search" placeholder="প্রতীক খুঁজুন..."><button id="addSymbolBtn" class="btn primary">+ নতুন প্রতীক</button></div></div>
+        <div class="symbol-legend"><span><i class="dot available"></i>উপলব্ধ</span><span><i class="dot used"></i>বরাদ্দকৃত</span><span><i class="dot inactive"></i>নিষ্ক্রিয়</span></div>
+        <div id="symbolMasterTable"></div>
+      </div>
+
+      <div class="card" style="margin-top:14px">
+        <div class="section-head"><div><h2>প্রতীক বরাদ্দ ড্যাশবোর্ড</h2></div><div class="actions symbol-dashboard-actions"><select id="symbolDashboardUnit"></select><select id="symbolCardSize" title="কার্ডের আকার"><option value="compact">ছোট কার্ড</option><option value="normal" selected>মাঝারি কার্ড</option><option value="large">বড় কার্ড</option></select><button id="exportSymbolExcelBtn" class="btn success">⬇ Excel</button><button id="printSymbolDashboardBtn" class="btn">প্রিন্ট</button></div></div>
+        <div id="symbolDashboard"></div>
+      </div>
+    </section>
+    <section id="votes" class="section"><div class="card"><div class="section-head"><div><h2>ম্যানুয়াল ভোট এন্ট্রি</h2></div><div class="actions"><select id="voteUnitFilter"></select><button id="saveVotesBtn" class="btn primary">সব ভোট সংরক্ষণ করুন</button></div></div><div class="notice">ভোট গ্রহণ ও গণনা সিস্টেমের বাইরে হবে। এখানে শুধু গণনা শেষে প্রতিটি প্রার্থীর প্রাপ্ত ভোট লিখতে হবে।</div><div id="voteTable" style="margin-top:14px"></div></div></section>
+
+    <section id="publish" class="section"><div class="card"><div class="section-head"><div><h2>ফলাফল যাচাই ও প্রকাশ</h2></div><div class="actions"><select id="publishUnitSelect" title="প্রকাশের জন্য সেকশন নির্বাচন করুন"></select><button id="previewBtn" class="btn">ফলাফল প্রিভিউ</button><button id="publishBtn" class="btn success">নির্বাচিত সেকশন প্রকাশ</button><button id="unpublishBtn" class="btn warn">নির্বাচিত সেকশন বন্ধ</button></div></div><div id="verifyArea"></div></div></section>
+  </main>
+</div>
+
+<div id="branchModal" class="modal hidden"><div class="modal-card"><div class="modal-head"><h3 id="branchModalTitle">নতুন শাখা</h3><button class="close" data-close="branchModal">×</button></div><form id="branchForm" class="form-grid">
+<input type="hidden" id="branchId"><div class="field full"><label>শাখা / কারখানার নাম</label><input id="branchName" required></div><div class="field"><label>সংক্ষিপ্ত নাম</label><input id="branchShortName"></div><div class="field"><label>শাখা কোড</label><input id="branchCode"></div><div class="field"><label>দেখানোর ক্রম</label><input id="branchOrder" type="number" min="1" value="1"></div><div class="field"><label>অবস্থা</label><select id="branchActive"><option value="true">সক্রিয়</option><option value="false">নিষ্ক্রিয়</option></select></div><div class="field full"><label>নির্বাচনের শিরোনাম</label><input id="branchElectionTitle" value="অংশগ্রহণকারী কমিটি নির্বাচন-২০২৬"></div><div class="field"><label>নির্বাচনের তারিখ</label><input id="branchElectionDate" type="date"></div><input type="hidden" id="branchPublished" value="false"><div class="field full"><button class="btn primary" type="submit">শাখা সংরক্ষণ করুন</button></div></form></div></div>
+
+<div id="unitModal" class="modal hidden"><div class="modal-card wide-modal"><div class="modal-head"><h3 id="unitModalTitle">নতুন সেকশন</h3><button class="close" data-close="unitModal">×</button></div><form id="unitForm" class="form-grid">
+<input type="hidden" id="unitId"><div class="field full"><label>শাখা</label><select id="unitBranch" required></select></div><div class="field full"><label>সেকশনের নাম</label><input id="unitName" required></div><div class="field"><label>সেকশন কোড</label><input id="unitCode"></div><div class="field"><label>দেখানোর ক্রম</label><input id="unitOrder" type="number" min="1" value="1"></div>
+<div class="field"><label>সাধারণ আসনে বিজয়ীর সংখ্যা</label><input id="maleQuota" type="number" min="0" value="0"></div><div class="field"><label>সংরক্ষিত নারী আসনে বিজয়ীর সংখ্যা</label><input id="femaleQuota" type="number" min="0" value="0"></div>
+<div class="field"><label>পুরুষ ভোটার</label><input id="maleVoters" type="number" min="0" value="0"></div><div class="field"><label>নারী ভোটার</label><input id="femaleVoters" type="number" min="0" value="0"></div><div class="field full"><label>মোট ভোটার</label><input id="totalVoters" type="number" min="0" value="0"><small class="subtle">পুরুষ + নারী ভোটার থেকে স্বয়ংক্রিয়ভাবে হিসাব হবে; প্রয়োজন হলে পরিবর্তন করা যাবে।</small></div>
+<div class="field full"><label>বুথ নম্বর (একাধিক হলে কমা দিয়ে লিখুন)</label><input id="boothNumbers" placeholder="৪০১, ৪০৫, ৪০৭"></div><div class="field"><label>মোট প্রদত্ত ভোট / ব্যালট</label><input id="totalBallots" type="number" min="0" value="0"></div><div class="field"><label>বাতিল ভোট</label><input id="invalidBallots" type="number" min="0" value="0"></div><div class="field"><label>অবস্থা</label><select id="unitActive"><option value="true">সক্রিয়</option><option value="false">নিষ্ক্রিয়</option></select></div><div class="field full"><button class="btn primary" type="submit">সেকশন সংরক্ষণ করুন</button></div></form></div></div>
+
+<div id="candidateModal" class="modal hidden"><div class="modal-card"><div class="modal-head"><h3 id="candidateModalTitle">নতুন প্রার্থী</h3><button class="close" data-close="candidateModal">×</button></div><form id="candidateForm" class="form-grid">
+<input type="hidden" id="candidateId"><div class="field"><label>সেকশন</label><select id="candidateUnit" required></select></div><div class="field"><label>আসনের ধরন</label><select id="candidateGender"><option value="male">সাধারণ আসন</option><option value="female">সংরক্ষিত নারী আসন</option></select></div><div class="field full"><label>প্রার্থীর নাম</label><input id="candidateName" required></div><div class="field"><label>কর্মী আইডি</label><input id="candidateEmployeeId"></div><div class="field"><label>প্রার্থীর ছবি</label><input id="candidatePhoto" type="file" accept="image/*"></div><div class="field"><label>অবস্থা</label><select id="candidateActive"><option value="true">সক্রিয়</option><option value="false">নিষ্ক্রিয়</option></select></div><div class="field full"><button class="btn primary" type="submit">প্রার্থী সংরক্ষণ করুন</button></div></form></div></div>
+
+<div id="spinModal" class="modal hidden spin-modal" aria-hidden="true">
+  <div class="modal-card spin-modal-card">
+    <div class="modal-head spin-modal-head">
+      <div><h3>🎡 প্রতীক স্পিন</h3><p class="subtle" id="spinModalSub">Available প্রতীক থেকে স্বচ্ছভাবে একটি প্রতীক নির্বাচন হবে</p></div>
+      <div class="spin-head-actions">
+        <label class="spin-size-control">কার্ড
+          <select id="spinCardSize" title="স্পিন কার্ডের আকার">
+            <option value="compact">ছোট</option>
+            <option value="normal" selected>মাঝারি</option>
+            <option value="large">বড়</option>
+          </select>
+        </label>
+        <button class="close" id="spinCloseBtn" type="button" aria-label="বন্ধ করুন">×</button>
+      </div>
+    </div>
+    <div class="spin-layout">
+      <aside class="spin-candidate-panel" id="spinCandidatePanel"></aside>
+      <section class="spin-stage">
+        <div class="spin-counter-row"><span id="spinRemainingBadge">Available: ০</span><span id="spinProgressBadge">Allocated: ০/০</span></div>
+        <div class="wheel-shell" id="wheelShell">
+          <div class="wheel-pointer" aria-hidden="true"></div>
+          <canvas id="symbolWheelCanvas" width="560" height="560" aria-label="প্রতীক স্পিন হুইল"></canvas>
+          <div class="wheel-center"><img src="assets/img/masco-logo.png" alt="MASCO"><b>MASCO</b></div>
+        </div>
+        <div id="spinStatus" class="spin-status" aria-live="polite">SPIN চাপলে প্রতীক নির্বাচন শুরু হবে</div>
+        <div class="spin-actions">
+          <button id="startSpinBtn" class="btn success spin-main-btn" type="button">SPIN</button>
+          <button id="spinCancelBtn" class="btn" type="button">বাতিল</button><button id="spinDoneBtn" class="btn success spin-done-btn hidden" type="button">✓ ঠিক আছে</button>
+        </div>
+      </section>
+    </div>
+    <div id="spinResult" class="spin-result hidden" aria-live="polite"></div>
+  </div>
+</div>
+
+<div id="symbolModal" class="modal hidden"><div class="modal-card"><div class="modal-head"><h3 id="symbolModalTitle">নতুন প্রতীক</h3><button class="close" data-close="symbolModal">×</button></div><form id="symbolForm" class="form-grid">
+<input type="hidden" id="symbolId"><div class="field full"><label>প্রতীকের নাম</label><input id="symbolName" required placeholder="যেমন: ছাতা"></div><div class="field"><label>প্রতীকের ছবি</label><input id="symbolPhoto" type="file" accept="image/*"></div><div class="field"><label>দেখানোর ক্রম</label><input id="symbolOrder" type="number" min="1" value="1"></div><div class="field"><label>অবস্থা</label><select id="symbolActive"><option value="true">সক্রিয়</option><option value="false">নিষ্ক্রিয়</option></select></div><div class="field full"><button class="btn primary" type="submit">প্রতীক সংরক্ষণ করুন</button></div></form></div></div>
+
+<div id="allocationListModal" class="modal hidden allocation-list-modal">
+  <div class="modal-card allocation-list-card">
+    <div class="modal-head">
+      <div><h3 id="allocationListTitle">প্রতীক বরাদ্দ তালিকা</h3><p class="subtle" id="allocationListSub"></p></div>
+      <button class="close" data-close="allocationListModal" aria-label="বন্ধ করুন">×</button>
+    </div>
+    <div class="allocation-list-toolbar">
+      <select id="allocationListUnitFilter"><option value="">সব সেকশন</option></select>
+      <input id="allocationListSearch" type="search" placeholder="নাম / আইডি / প্রতীক খুঁজুন">
+      <span id="allocationListCount" class="allocation-list-count">০ জন</span>
+    </div>
+    <div id="allocationListBody" class="allocation-list-body"></div>
+  </div>
+</div>
+
+<script src="assets/js/store.js?v=41.2"></script><script src="assets/js/admin.js?v=41.4"></script>
+</body></html>

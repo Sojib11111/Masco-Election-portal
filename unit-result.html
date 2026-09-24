@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="bn">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+  <title>সেকশন নির্বাচন ফলাফল</title>
+  <link rel="stylesheet" href="assets/css/styles.css?v=41.0">
+</head>
+<body class="unit-detail-body bangla-ui public-v20">
+  <div class="unit-detail-shell" id="unitDetailShell">
+    <header class="v20-hero unit-v23-hero" aria-label="মাসকো গ্রুপ নির্বাচন ফলাফল">
+      <div class="v20-building" aria-hidden="true"><span>MASCO GROUP</span></div>
+      <div class="v20-brand v21-brand" aria-label="MASCO GROUP">
+        <div class="v20-logo-wrap"><img src="assets/img/masco-logo.png" alt="MASCO Group Logo"></div>
+      </div>
+      <div class="v20-center">
+        <div class="v20-org" id="detailOrg">মাসকো গ্রুপ</div><hr>
+        <h1 id="detailElectionTitle">অংশগ্রহণকারী কমিটি নির্বাচন-২০২৬</h1>
+        <div class="unit-v23-branch" id="detailBranchName"></div>
+        <div class="v20-final-row">
+          <i class="v20-line v20-line-left" aria-hidden="true"></i>
+          <div class="v20-final-pill" id="detailStatus"><span class="v20-check">✓</span><span>চূড়ান্ত ফলাফল</span></div>
+          <i class="v20-line v20-line-right" aria-hidden="true"></i>
+        </div>
+        <div class="unit-v23-date" id="detailDate"></div>
+      </div>
+      <div class="v20-tools">
+        <div class="v20-seal" aria-label="চূড়ান্ত ফলাফল"><span>সততা</span><strong>✓</strong><span>সমন্বয়</span></div>
+      </div>
+      <div class="v20-gold-swoosh v20-gold-swoosh-a" aria-hidden="true"></div>
+      <div class="v20-gold-swoosh v20-gold-swoosh-b" aria-hidden="true"></div>
+    </header>
+
+    <nav class="detail-toolbar">
+      <a class="detail-btn" id="backDashboard" href="index.html">← মূল ফলাফলে ফিরে যান</a>
+      <div class="detail-unit-name"><span class="unit-title-icon">🏢</span> <span id="unitName">সেকশন ফলাফল</span></div>
+      <div class="detail-toolbar-actions"><button class="detail-btn green" id="detailFullscreen">⛶ পূর্ণ পর্দা</button><button class="detail-btn purple" onclick="window.print()">▣ প্রিন্ট / পিডিএফ</button></div>
+    </nav>
+
+    <main>
+      <section class="detail-kpis" id="detailKpis"></section>
+
+      <section class="unit-info-strip" id="unitInfoStrip"></section>
+
+      <section class="candidate-board" id="candidateBoard">
+        <div class="candidate-column male-column">
+          <div class="candidate-column-title"><span>●</span> সাধারণ আসনের প্রার্থী <b id="maleCount">০</b></div>
+          <div class="detail-table-wrap" id="maleCandidates"></div>
+        </div>
+        <div class="candidate-column female-column">
+          <div class="candidate-column-title"><span>◆</span> সংরক্ষিত নারী আসনের প্রার্থী <b id="femaleCount">০</b></div>
+          <div class="detail-table-wrap" id="femaleCandidates"></div>
+        </div>
+      </section>
+
+      <section class="detail-bottom-grid v5-bottom-grid">
+        <article class="dashboard-summary-card vote-summary-panel">
+          <div class="vote-donut" id="voteDonut"><div><b id="donutPct">০%</b><span>বৈধ</span></div></div>
+          <div class="donut-legend"><h3>ভোটের সারসংক্ষেপ</h3><div><i class="legend-valid"></i> বৈধ ভোট <b id="legendValid">০</b></div><div><i class="legend-invalid"></i> বাতিল ভোট <b id="legendInvalid">০</b></div></div>
+        </article>
+        <article class="dashboard-summary-card candidate-vote-panel"><div class="summary-round-icon purple-icon">▦</div><div><h3>প্রার্থীদের ভোটের সারসংক্ষেপ</h3><span>প্রার্থীদের মোট প্রাপ্ত ভোট</span><strong id="candidateVoteTotal">০</strong><small>সকল প্রার্থীর ভোটের যোগফল</small></div></article>
+        <article class="dashboard-summary-card quota-summary-panel"><div class="summary-round-icon cyan-icon">🏆</div><div><h3>বিজয়ীর সংখ্যা</h3><div class="quota-line"><span>সাধারণ আসনে বিজয়ী</span><b id="maleQuotaBottom">০</b></div><div class="quota-line"><span>সংরক্ষিত নারী আসনে বিজয়ী</span><b id="femaleQuotaBottom">০</b></div><div class="quota-line total"><span>মোট বিজয়ী</span><b id="totalWinnersBottom">০</b></div></div></article>
+        <article class="dashboard-summary-card info-summary-panel"><div class="summary-round-icon gold-icon">💡</div><div><h3>তথ্য</h3><p>সাধারণ আসন ও সংরক্ষিত নারী আসনে সর্বোচ্চ ভোটপ্রাপ্ত প্রার্থী এবং নির্ধারিত আসনসংখ্যার ভিত্তিতে ফলাফল নির্ধারিত হয়।</p></div></article>
+      </section>
+    </main>
+
+    <footer class="detail-footer v5-footer"><div>© <span id="footerYear"></span> MASCO GROUP • সর্বস্বত্ব সংরক্ষিত <span class="heart">♥</span> আমরা একসাথে আরও শক্তিশালী</div><span id="detailUpdated"></span></footer>
+  </div>
+  <script src="assets/js/store.js?v=41.0"></script><script src="assets/js/unit-result.js?v=40.0"></script>
+</body>
+</html>
