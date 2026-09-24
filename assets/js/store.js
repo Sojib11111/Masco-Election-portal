@@ -119,7 +119,12 @@ const ElectionStore = (() => {
   }
 
   async function apiGet() {
-    const res = await fetch('/api/data', {cache:'no-store'});
+    const res = await fetch(
+  window.MascoApiUrl('/api/data'),
+  {
+    cache:'no-store'
+  }
+);
     if (!res.ok) throw new Error(`সার্ভার থেকে তথ্য পড়া যায়নি (${res.status})`);
     return normalize(await res.json());
   }
@@ -130,11 +135,17 @@ const ElectionStore = (() => {
     const normalized = normalize(data);
     const token = adminToken();
     if(!token) throw new Error('Admin session নেই। আবার লগইন করুন।');
-    const res = await fetch('/api/data', {
-      method:'POST',
-      headers:{'Content-Type':'application/json','X-Admin-Token':token},
-      body:JSON.stringify(normalized)
-    });
+    const res = await fetch(
+  window.MascoApiUrl('/api/data'),
+  {
+    method:'POST',
+    headers:{
+      'Content-Type':'application/json',
+      'X-Admin-Token':token
+    },
+    body:JSON.stringify(normalized)
+  }
+);
     if (!res.ok) {
       let msg='';
       try{ const body=await res.json(); msg=body.message||''; }catch(_){ try{msg=await res.text()}catch(__){} }

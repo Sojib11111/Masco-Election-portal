@@ -317,7 +317,7 @@ async function init(){
     if(!username||!password)return alert('ব্যবহারকারীর নাম ও পাসওয়ার্ড লিখুন');
     btn.disabled=true;btn.textContent='লগইন হচ্ছে…';
     try{
-      const res=await fetch('/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username,password})});
+      const res=await fetch(window.MascoApiUrl('/api/auth/login'), {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({username,password})});
       const body=await res.json().catch(()=>({}));
       $('#loginPass').value='';
       if(!res.ok||!body.token)throw new Error(body.message||'লগইন ব্যর্থ হয়েছে');
@@ -329,13 +329,13 @@ async function init(){
   };
   if(sessionStorage.getItem('electionAdminToken')){
     try{
-      const chk=await fetch('/api/auth/check',{headers:{'X-Admin-Token':sessionStorage.getItem('electionAdminToken')}});
+      const chk=await fetch(window.MascoApiUrl('/api/auth/check'), {headers:{'X-Admin-Token':sessionStorage.getItem('electionAdminToken')}});
       if(chk.ok){sessionStorage.setItem('electionAdmin','1');showApp();renderAll();}
       else{sessionStorage.removeItem('electionAdmin');sessionStorage.removeItem('electionAdminToken');}
     }catch(_){sessionStorage.removeItem('electionAdmin');sessionStorage.removeItem('electionAdminToken');}
   }
   $$('.navbtn[data-page]').forEach(b=>b.onclick=()=>nav(b.dataset.page));$$('.close').forEach(b=>b.onclick=()=>closeModal(b.dataset.close));
-  $('#logoutBtn').onclick=async()=>{const t=sessionStorage.getItem('electionAdminToken');try{if(t)await fetch('/api/auth/logout',{method:'POST',headers:{'X-Admin-Token':t}})}catch(_){}sessionStorage.removeItem('electionAdmin');sessionStorage.removeItem('electionAdminToken');hideApp();};$('#adminBranchSelect').onchange=e=>{CURRENT_BRANCH=e.target.value;renderAll();};
+  $('#logoutBtn').onclick=async()=>{const t=sessionStorage.getItem('electionAdminToken');try{if(t)await fetch(window.MascoApiUrl('/api/auth/logout'), {method:'POST',headers:{'X-Admin-Token':t}})}catch(_){}sessionStorage.removeItem('electionAdmin');sessionStorage.removeItem('electionAdminToken');hideApp();};$('#adminBranchSelect').onchange=e=>{CURRENT_BRANCH=e.target.value;renderAll();};
   $('#exportBtn').onclick=()=>ElectionStore.exportJson(DATA);
   $('#importFile').onchange=async e=>{try{DATA=await ElectionStore.importJson(e.target.files[0]);CURRENT_BRANCH='';renderAll();toast('তথ্য সফলভাবে আপলোড ও স্থায়ীভাবে সংরক্ষণ হয়েছে');}catch(err){alert(err.message)}e.target.value='';};
 
