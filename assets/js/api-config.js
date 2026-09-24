@@ -5,7 +5,7 @@
     window.MASCO_API_BASE = '';
 
   GitHub Pages frontend + separate Node backend:
-    window.MASCO_API_BASE = 'https://YOUR-NODE-BACKEND.example.com';
+    window.MASCO_API_BASE = 'https://masco-election-portal.onrender.com';
 */
 window.MASCO_API_BASE = window.MASCO_API_BASE || '';
 window.MASCO_API_BASE = String(window.MASCO_API_BASE).replace(/\/+$/, '');
