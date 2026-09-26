@@ -20,3 +20,32 @@ const imgs=[...document.querySelectorAll('img')];await Promise.all(imgs.map(img=
 if(window.innerWidth>1200){document.body.style.zoom='1';}}
 const detailFs=document.querySelector('#detailFullscreen');if(detailFs){detailFs.addEventListener('click',async()=>{try{if(!document.fullscreenElement)await document.documentElement.requestFullscreen();else await document.exitFullscreen();}catch(e){}});document.addEventListener('fullscreenchange',()=>{detailFs.textContent=document.fullscreenElement?'⛶ পূর্ণ পর্দা থেকে বের হন':'⛶ পূর্ণ পর্দা';});}
 initUnitDetail().catch(err=>{document.querySelector('main').innerHTML=`<div class="detail-not-found"><h2>ফলাফল লোড করা যায়নি</h2><p>${dEsc(err.message)}</p><a href="index.html">মূল ফলাফলে ফিরে যান</a></div>`;});
+
+// Fit-to-screen on desktop/TV: choose the least compact row density at which
+// the whole section page fits in the window (no scroll, nothing hidden).
+(function(){
+  const LEVELS=['fit-1','fit-2','fit-3'];
+  const body=document.body;
+  function fits(){const d=document.documentElement;return d.scrollHeight<=d.clientHeight+1;}
+  function fit(){
+    LEVELS.forEach(c=>body.classList.remove(c));
+    if(window.innerWidth<1201||!document.querySelector('.detail-candidate-table'))return;
+    if(fits())return;
+    for(const c of LEVELS){
+      LEVELS.forEach(x=>body.classList.remove(x));
+      body.classList.add(c);
+      if(fits())return;
+    }
+    // nothing fits on one screen (small / zoomed laptop): keep normal, readable
+    // row size and simply let the page scroll
+    LEVELS.forEach(x=>body.classList.remove(x));
+  }
+  let t=0;const later=()=>{clearTimeout(t);t=setTimeout(fit,120);};
+  window.addEventListener('resize',later,{passive:true});
+  document.addEventListener('fullscreenchange',later);
+  window.addEventListener('load',later);
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(later).catch(()=>{});
+  const target=document.querySelector('#candidateBoard');
+  if(target)new MutationObserver(later).observe(target,{childList:true,subtree:true});
+  later();
+})();

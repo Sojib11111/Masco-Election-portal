@@ -115,7 +115,8 @@ function layoutSectionMasonry(){
   cards.forEach(card=>{card.style.gridRowEnd='auto';});
   requestAnimationFrame(()=>{
     cards.forEach(card=>{
-      const h=Math.ceil(card.getBoundingClientRect().height);
+      // offsetHeight is in CSS px (unaffected by page zoom on large TV screens)
+      const h=Math.ceil(card.offsetHeight||card.getBoundingClientRect().height);
       const span=Math.max(1,Math.ceil((h+gap)/(row+gap)));
       card.style.gridRowEnd=`span ${span}`;
     });
@@ -261,4 +262,27 @@ initResult().catch(e=>{document.querySelector('#results').innerHTML=`<section cl
     clearInterval(fireTimer);
     clearInterval(ribbonTimer);
   }, { once:true });
+})();
+
+// V2.0: keep winner names on one line — shrink the font a little if needed,
+// wrap to two lines only when the name is really long.
+function fitWinnerNames(){
+  document.querySelectorAll('.winner-card h4').forEach(h=>{
+    h.classList.remove('name-wrap');
+    h.style.removeProperty('font-size');
+    const base=parseFloat(getComputedStyle(h).fontSize)||15;
+    if(h.scrollWidth<=h.clientWidth+1)return;
+    const min=Math.max(11,base*0.78);
+    let size=base;
+    while(size>min&&h.scrollWidth>h.clientWidth+1){size-=0.5;h.style.setProperty('font-size',size+'px','important');}
+    if(h.scrollWidth>h.clientWidth+1){h.style.setProperty('font-size',base+'px','important');h.classList.add('name-wrap');}
+  });
+}
+(function(){
+  const root=document.getElementById('results');if(!root)return;
+  let t=0;const later=()=>{clearTimeout(t);t=setTimeout(()=>{fitWinnerNames();layoutSectionMasonry();},60);};
+  new MutationObserver(later).observe(root,{childList:true});
+  window.addEventListener('resize',later,{passive:true});
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(later).catch(()=>{});
+  later();
 })();

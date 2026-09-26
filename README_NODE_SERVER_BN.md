@@ -9,6 +9,27 @@
 4. Result: `http://localhost:8080/index.html?branch=branch-concept`
 5. অন্য PC থেকে server console-এ দেখানো LAN URL ব্যবহার করুন। Windows Firewall-এ TCP 8080 allow করতে হতে পারে।
 
+## দুইভাবে চালানো (একই কোড, কিছু বদলাতে হবে না)
+
+`assets/js/api-config.js` নিজে থেকেই বুঝে নেয় পেজ কোথা থেকে খোলা হয়েছে:
+
+| কোথা থেকে খুলছেন | ডেটা/API কোথা থেকে আসবে |
+| --- | --- |
+| `http://localhost:8080/...` (START.bat) | আপনার PC-র `data/election.json` |
+| LAN IP, যেমন `http://192.168.x.x:8080/...` | আপনার PC-র `data/election.json` |
+| `https://sojib11111.github.io/...` | Render সার্ভার |
+| `https://masco-election-portal.onrender.com/...` | Render সার্ভার |
+
+**লোকাল:** `START.bat` চালান → `http://localhost:8080/admin.html`। `index.html` ফাইল ডাবল-ক্লিক করে খুলবেন না (তখন START.bat চালু থাকা লাগবে)।
+
+**অনলাইন:** GitHub-এ push করুন → GitHub Pages লিংক খুলুন। Render সার্ভার চালু থাকলেই হবে।
+
+**Render-এর URL বদলালে:** `assets/js/api-config.js` ফাইলে `RENDER_API_BASE` লাইনটা আপডেট করুন। GitHub Pages-এর ঠিকানা বদলালে Render-এর `ALLOWED_ORIGINS` env var-এ নতুন ঠিকানা দিন।
+
+**হাতে সার্ভার বেছে নেওয়া (ঐচ্ছিক):** URL-এর শেষে `?api=render` দিলে লোকাল পেজও Render-এর ডেটা দেখাবে, `?api=http://localhost:8080` দিলে নির্দিষ্ট সার্ভার, আর `?api=auto` দিলে আবার স্বয়ংক্রিয় মোড। ব্রাউজার এটা মনে রাখে।
+
+**খেয়াল রাখুন:** লোকাল আর Render — দুটো আলাদা ডেটা। একটার পরিবর্তন অন্যটায় যায় না। এক জায়গা থেকে অন্য জায়গায় নিতে Admin-এর **তথ্য ডাউনলোড** → অন্য জায়গায় **তথ্য আপলোড** ব্যবহার করুন।
+
 ## Admin login
 - Username: `admin`
 - Password: project owner configured password

@@ -35,7 +35,10 @@ const MIME = {
   '.jpeg': 'image/jpeg',
   '.gif': 'image/gif',
   '.svg': 'image/svg+xml',
-  '.ico': 'image/x-icon'
+  '.ico': 'image/x-icon',
+  '.woff2': 'font/woff2',
+  '.woff': 'font/woff',
+  '.ttf': 'font/ttf'
 };
 
 
@@ -54,7 +57,10 @@ function ensureDataFile() {
 function corsHeaders(req) {
   const origin = String(req.headers.origin || '');
   if (!origin) return {};
-  const allowed = ALLOWED_ORIGINS.includes('*') || ALLOWED_ORIGINS.includes(origin);
+  // Local development pages (localhost / 127.0.0.1 / LAN IP on any port, e.g. VS Code Live Server)
+  // are always allowed, so the same code works on the PC and on GitHub Pages.
+  const isLocalOrigin = /^https?:\/\/(localhost|127\.\d+\.\d+\.\d+|\[::1\]|10\.\d+\.\d+\.\d+|192\.168\.\d+\.\d+|172\.(1[6-9]|2\d|3[01])\.\d+\.\d+)(:\d+)?$/i.test(origin);
+  const allowed = isLocalOrigin || ALLOWED_ORIGINS.includes('*') || ALLOWED_ORIGINS.includes(origin);
   if (!allowed) return {};
   return {
     'Access-Control-Allow-Origin': origin,
